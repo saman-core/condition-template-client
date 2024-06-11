@@ -1,7 +1,0 @@
-*
-!.env
-!target/*-runner
-!target/*-runner.jar
-!target/classes/*
-!target/lib/*
-!target/quarkus-app/*

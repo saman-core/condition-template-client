@@ -19,13 +19,16 @@ public class ConditionTemplateRestClientWrapper implements ConditionTemplateClie
     @Inject
     Logger log;
 
-    @ConfigProperty(name = "conditionTemplateUrl")
-    String conditionTemplateUrl;
+    @ConfigProperty(name = "api.url-prefix")
+    String urlPrefix;
+
+    @ConfigProperty(name = "api.url-suffix")
+    String urlSuffix;
 
     @Override
     public List<Condition> evalBlocking(String product, String template, ConditionRequest initialConditionRequest) {
         log.debugf("ConditionTemplateRestClientWrapper.eval %s", initialConditionRequest);
-        var url = String.format(conditionTemplateUrl, product, template);
+        var url = generateUrl(product, template);
         var conditionTemplateRestClient = QuarkusRestClientBuilder.newBuilder()
                 .baseUri(URI.create(url))
                 .build(ConditionTemplateRestClient.class);
@@ -35,12 +38,14 @@ public class ConditionTemplateRestClientWrapper implements ConditionTemplateClie
     @Override
     public Uni<List<Condition>> eval(String product, String template, ConditionRequest initialConditionRequest) {
         log.debugf("ConditionTemplateRestClientWrapper.eval %s", initialConditionRequest);
-        var url = conditionTemplateUrl.replace("PRODUCT", product).replace("TEMPLATE", template);
+        var url = generateUrl(product, template);
         var conditionTemplateRestClient = QuarkusRestClientBuilder.newBuilder()
                 .baseUri(URI.create(url))
                 .build(ConditionTemplateRestClient.class);
-        return Uni.createFrom()
-                .item(initialConditionRequest)
-                .onItem().transformToUni(request -> conditionTemplateRestClient.eval(request));
+        return conditionTemplateRestClient.eval(initialConditionRequest);
+    }
+
+    private String generateUrl(String product, String template) {
+        return urlPrefix.concat("condition-").concat(product).concat("-").concat(template).concat(urlSuffix);
     }
 }
