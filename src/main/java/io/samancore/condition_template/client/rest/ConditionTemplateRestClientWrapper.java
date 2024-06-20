@@ -19,6 +19,9 @@ public class ConditionTemplateRestClientWrapper implements ConditionTemplateClie
     @Inject
     Logger log;
 
+    @ConfigProperty(name = "api.protocol")
+    String protocol;
+
     @ConfigProperty(name = "api.url-prefix")
     String urlPrefix;
 
@@ -46,6 +49,6 @@ public class ConditionTemplateRestClientWrapper implements ConditionTemplateClie
     }
 
     private String generateUrl(String product, String template) {
-        return urlPrefix.concat("condition-").concat(product).concat("-").concat(template).concat(urlSuffix);
+        return protocol.concat("://").concat(urlPrefix).concat("condition-").concat(product).concat("-").concat(template).concat(urlSuffix);
     }
 }
