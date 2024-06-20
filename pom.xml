@@ -9,7 +9,7 @@
     <repository>
       <id>github</id>
       <name>GitHub saman-core Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/saman-core/condition-template</url>
+      <url>https://maven.pkg.github.com/saman-core/condition-template-client</url>
     </repository>
   </distributionManagement>
   <properties>
