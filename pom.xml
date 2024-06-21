@@ -21,7 +21,6 @@
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
 
     <lombok.version>1.18.26</lombok.version>
-    <common.version>0.0.4</common.version>
     <common-model.version>0.0.3</common-model.version>
     <common-error.version>0.0.2</common-error.version>
   </properties>
@@ -37,11 +36,6 @@
       <artifactId>common-model</artifactId>
       <version>${common-model.version}</version>
       <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.samancore</groupId>
-      <artifactId>common</artifactId>
-      <version>${common.version}</version>
     </dependency>
     <dependency>
       <groupId>io.samancore</groupId>
