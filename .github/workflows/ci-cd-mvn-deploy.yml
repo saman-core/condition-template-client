@@ -4,7 +4,7 @@ on:
 
 env:
   REPOSITORY: condition-template-client
-  ACTOR: condition-template-client
+  ACTOR: saman-core
 
 jobs:
   build_contenizer:
