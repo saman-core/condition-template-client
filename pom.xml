@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.samancore</groupId>
   <artifactId>condition-template-client</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <distributionManagement>
     <repository>
       <id>github</id>
@@ -22,7 +22,7 @@
 
     <lombok.version>1.18.26</lombok.version>
     <common-model.version>0.0.4</common-model.version>
-    <common-error.version>0.0.2</common-error.version>
+    <common-error.version>0.0.3</common-error.version>
   </properties>
   <dependencies>
     <dependency>
