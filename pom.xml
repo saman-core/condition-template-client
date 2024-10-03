@@ -1,29 +1,30 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.samancore</groupId>
   <artifactId>condition-template-client</artifactId>
-  <version>0.0.4</version>
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <name>GitHub saman-core Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/saman-core/condition-template-client</url>
-    </repository>
-  </distributionManagement>
-  <properties>
-    <compiler-plugin.version>3.10.1</compiler-plugin.version>
-    <maven.compiler.release>17</maven.compiler.release>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <quarkus.platform.version>3.6.6</quarkus.platform.version>
-    <skipITs>true</skipITs>
-    <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
+  <version>1.0.0-SNAPSHOT</version>
 
-    <lombok.version>1.18.26</lombok.version>
-    <common-model.version>0.0.5</common-model.version>
-    <common-error.version>0.0.3</common-error.version>
+  <properties>
+    <compiler-plugin.version>3.13.0</compiler-plugin.version>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <skipITs>true</skipITs>
+    <surefire-plugin.version>3.3.1</surefire-plugin.version>
+
+    <quarkus.platform.version>3.15.1</quarkus.platform.version>
+    <lombok.version>1.18.34</lombok.version>
+    <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
+    <jackson-databind.version>2.17.2</jackson-databind.version>
+    <jboss-logging.version>3.6.0.Final</jboss-logging.version>
+    <commons-lang3.version>3.14.0</commons-lang3.version>
+    <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+
+    <common-model.version>1.0.0-SNAPSHOT</common-model.version>
+    <common-error.version>1.0.0-SNAPSHOT</common-error.version>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -35,7 +36,6 @@
       <groupId>io.samancore</groupId>
       <artifactId>common-model</artifactId>
       <version>${common-model.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.samancore</groupId>
@@ -44,15 +44,38 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest-client-reactive</artifactId>
+      <artifactId>quarkus-rest-client</artifactId>
       <version>${quarkus.platform.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
+      <artifactId>quarkus-rest-jackson</artifactId>
       <version>${quarkus.platform.version}</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compiler-plugin.version}</version>
+        <configuration>
+          <parameters>true</parameters>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire-plugin.version}</version>
+        <configuration>
+          <systemPropertyVariables>
+            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+            <maven.home>${maven.home}</maven.home>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <pluginRepositories>
     <pluginRepository>
       <releases>
@@ -66,59 +89,12 @@
       <url>https://maven.pkg.github.com/saman-core/*</url>
     </pluginRepository>
   </pluginRepositories>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler-plugin.version}</version>
-        <configuration>
-          <compilerArgs>
-            <arg>-parameters</arg>
-          </compilerArgs>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
-        <configuration>
-          <systemPropertyVariables>
-            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-            <maven.home>${maven.home}</maven.home>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-            <configuration>
-              <systemPropertyVariables>
-                <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                <maven.home>${maven.home}</maven.home>
-              </systemPropertyVariables>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>io.smallrye</groupId>
-        <artifactId>jandex-maven-plugin</artifactId>
-        <version>3.1.8</version>
-        <executions>
-          <execution>
-            <id>make-index</id>
-            <goals>
-              <goal>jandex</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub saman-core Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/saman-core/condition-template-client</url>
+    </repository>
+  </distributionManagement>
 </project>
