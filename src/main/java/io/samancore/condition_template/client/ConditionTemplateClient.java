@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ConditionTemplateClient {
 
-    List<Condition> evalBlocking(String product, String template, ConditionRequest initialConditionRequest);
+    List<Condition> evalBlocking(String module, String product, String template, ConditionRequest initialConditionRequest);
 
-    Uni<List<Condition>> eval(String product, String template, ConditionRequest initialConditionRequest);
+    Uni<List<Condition>> eval(String module, String product, String template, ConditionRequest initialConditionRequest);
 }
