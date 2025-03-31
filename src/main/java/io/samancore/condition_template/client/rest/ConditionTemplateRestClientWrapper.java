@@ -46,6 +46,6 @@ public class ConditionTemplateRestClientWrapper implements ConditionTemplateClie
     }
 
     private String generateUrl(String module, String product, String template) {
-        return urlPrefix.concat("conditions-").concat(module).concat("-").concat(product).concat("-").concat(template).concat(urlSuffix);
+        return urlPrefix.concat(module).concat("-conditions-").concat(product).concat("-").concat(template).concat(urlSuffix);
     }
 }
